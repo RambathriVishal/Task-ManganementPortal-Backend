@@ -2,6 +2,7 @@ package com.thecodeveal.app.model;
 
 import java.util.Collection;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,156 +32,19 @@ public class User implements UserDetails{
 	private String username;
 	@Column(name="USER_KEY")
 	private String password;
+
 	
 	@ManyToMany(cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
 	@JoinTable(name="AUTH_USER_AUTHORITY",joinColumns = @JoinColumn(referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(referencedColumnName = "id")		)
 	private List<Authority>authorites;
-	
-	
-	@ManyToMany(cascade = CascadeType.MERGE,fetch=FetchType.LAZY)
-	@JoinTable(name="AUTH_USER_TRAINING",joinColumns = @JoinColumn(referencedColumnName = "id"),
-	inverseJoinColumns = {
-			@JoinColumn(referencedColumnName = "id") , 
-			@JoinColumn(referencedColumnName = "status")
-	}     )
-	
-	
-	
-	
-	private List<Training> courses;
-	
-	
-	
-	
-	@ManyToOne
-	Department department;
-	
-	
-	
-	public Department getDepartment() {
-		return department;
-	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public List<Training> getCourses() {
-		return courses;
-	}
-
-	public void setCourses(List<Training> courses) {
-		this.courses = courses;
-	}
-
-	private boolean emailGeneration;
-	
-	
-	
 	private String firstname;
-	private String middlename;
-	private String lastname;
-	private String personalemail;
-	private String dateofbirth;
-	private String mobilenumber;
-	private String alternatemobilenumber;
-	
-	private String fathername;
-	private String mothername;
-	private String fathermobilenumber;
-	private String mothermobilenumber;
-	private String addressone;
-	private String addresstwo;
-	private String profilepic;
-	public String resume;
-	public String marksheets;
-	private Long salary;
-	
-	private String location;
-	
+
 	private String role;
 	
 	
-	
-	
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Long getSalary() {
-		return salary;
-	}
-
-	public void setSalary(Long salary) {
-		this.salary = salary;
-	}
-
-	public String getResume() {
-		return resume;
-	}
-
-	public void setResume(String resume) {
-		this.resume = resume;
-	}
-
-	public String getMarksheets() {
-		return marksheets;
-	}
-
-	public void setMarksheets(String marksheets) {
-		this.marksheets = marksheets;
-	}
-
-	public String getProfilepic() {
-		return profilepic;
-	}
-
-	public void setProfilepic(String profilepic) {
-		this.profilepic = profilepic;
-	}
-
-	public String getMobilenumber() {
-		return mobilenumber;
-	}
-
-	public void setMobilenumber(String mobilenumber) {
-		this.mobilenumber = mobilenumber;
-	}
-
-	public String getAlternatemobilenumber() {
-		return alternatemobilenumber;
-	}
-
-	public void setAlternatemobilenumber(String alternatemobilenumber) {
-		this.alternatemobilenumber = alternatemobilenumber;
-	}
-
-	private String pincode;
-	
-	
-	
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getMiddlename() {
+public String getMiddlename() {
 		return middlename;
 	}
 
@@ -207,42 +68,6 @@ public class User implements UserDetails{
 		this.personalemail = personalemail;
 	}
 
-	
-
-	public String getFathername() {
-		return fathername;
-	}
-
-	public void setFathername(String fathername) {
-		this.fathername = fathername;
-	}
-
-	public String getMothername() {
-		return mothername;
-	}
-
-	public void setMothername(String mothername) {
-		this.mothername = mothername;
-	}
-
-	public String getFathermobilenumber() {
-		return fathermobilenumber;
-	}
-
-	public void setFathermobilenumber(String fathernamemobilenumber) {
-		this.fathermobilenumber = fathernamemobilenumber;
-	}
-
-	public String getMothermobilenumber() {
-		return mothermobilenumber;
-	}
-
-	public void setMothermobilenumber(String mothernamemobilenumber) {
-		this.mothermobilenumber = mothernamemobilenumber;
-	}
-
-	
-
 	public String getDateofbirth() {
 		return dateofbirth;
 	}
@@ -251,79 +76,76 @@ public class User implements UserDetails{
 		this.dateofbirth = dateofbirth;
 	}
 
-	public String getAddressone() {
-		return addressone;
+	public String getMobilenumber() {
+		return mobilenumber;
 	}
 
-	public void setAddressone(String addressone) {
-		this.addressone = addressone;
+	public void setMobilenumber(String mobilenumber) {
+		this.mobilenumber = mobilenumber;
 	}
 
-	public String getAddresstwo() {
-		return addresstwo;
+private String middlename;
+private String lastname;
+private String personalemail;
+private String dateofbirth;
+private String mobilenumber;
+
+	public String getRole() {
+		return role;
 	}
 
-	public void setAddresstwo(String addresstwo) {
-		this.addresstwo = addresstwo;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	
-
-	public boolean getEmailGeneration() {
-		return emailGeneration;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setEmailGeneration(boolean emailGeneration) {
-		this.emailGeneration = emailGeneration;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
+		
 		return authorites;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
+		
 		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
+		
 		return this.username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 
@@ -352,7 +174,8 @@ public class User implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+
 	
 	
 

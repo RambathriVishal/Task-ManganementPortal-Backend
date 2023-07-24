@@ -124,7 +124,6 @@ public class JWTTokenHelper {
 
 
 	public String getAuthHeaderFromHeader(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		 return request.getHeader("Authorization");
 	}
 

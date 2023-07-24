@@ -52,7 +52,6 @@ public class Authority implements GrantedAuthority{
 	
 
 	public Authority(long id, String  roleCode) {
-		// TODO Auto-generated constructor stub
 		this.id=id;
 		this.roleCode = roleCode;
 		
@@ -75,7 +74,6 @@ public class Authority implements GrantedAuthority{
 
 	@Override
 	public String getAuthority() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
