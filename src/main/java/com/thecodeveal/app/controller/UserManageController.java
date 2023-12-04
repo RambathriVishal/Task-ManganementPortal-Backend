@@ -18,29 +18,28 @@ import com.thecodeveal.app.model.User;
 import com.thecodeveal.app.repo.AuthorityDetailsRepository;
 import com.thecodeveal.app.repo.UserDetailsRepository;
 import com.thecodeveal.app.service.CustomUserService;
+
 @RestController
 @RequestMapping("/")
 @CrossOrigin("*")
 public class UserManageController {
-	
+
 	@Autowired
 	CustomUserService customUserService;
 	@Autowired
 	AuthorityDetailsRepository authrepo;
 	@Autowired
 	UserDetailsRepository userrepo;
-	
 
 	@GetMapping("/usermanage")
-	List<User> getAllUsers(){
+	List<User> getAllUsers() {
 		return userrepo.findAll();
-		
+
 	}
 
-
 	@PutMapping("/usermanage/{id}")
-	User updateUser(@RequestBody User newUser,@PathVariable Long id) {
-		return userrepo.findById(id).map(user->{
+	User updateUser(@RequestBody User newUser, @PathVariable Long id) {
+		return userrepo.findById(id).map(user -> {
 			user.setFirstname(newUser.getFirstname());
 			user.setMiddlename(newUser.getMiddlename());
 			user.setLastname(newUser.getLastname());
@@ -48,17 +47,16 @@ public class UserManageController {
 			user.setDateofbirth(newUser.getDateofbirth());
 			user.setMobilenumber(newUser.getMobilenumber());
 			return userrepo.save(user);
-		}).orElseThrow(()->new UserNotFoundException(id));
+		}).orElseThrow(() -> new UserNotFoundException(id));
 	}
+
 	@DeleteMapping("/usermanage/{id}")
 	String deleteTask(@PathVariable Long id) {
-		if(!userrepo.existsById(id)) {
+		if (!userrepo.existsById(id)) {
 			throw new UserNotFoundException(id);
 		}
 		userrepo.deleteById(id);
-		return "User with id "+id+" has been deleted success";
+		return "User with id " + id + " has been deleted success";
 	}
-	
-	
 
 }

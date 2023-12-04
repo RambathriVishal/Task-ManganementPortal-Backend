@@ -67,6 +67,7 @@ public class JWTTokenHelper {
 	                .signWith( SIGNATURE_ALGORITHM, secretKey )
 	                .compact();
 	  }
+	  
 	 
 	 private Date generateExpirationDate() {
 		 return new Date(new Date().getTime() + expiresIn * 1000);

@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 	
-	private UserDetailsService userDetailsService;
+	private CustomerService customerService;
 	private JWTTokenHelper jwtTokenHelper;
 	
 	public  JWTAuthenticationFilter(UserDetailsService userDetailsService,JWTTokenHelper jwtTokenHelper)

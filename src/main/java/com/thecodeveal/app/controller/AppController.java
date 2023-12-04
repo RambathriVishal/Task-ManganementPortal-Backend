@@ -1,4 +1,4 @@
-package com.thecodeveal.app.controller;
+package com.example.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thecodeveal.app.model.Authority;
+import com.example.model.Authority;
 
 
-import com.thecodeveal.app.model.User;
+import com.example.model.User;
 
-import com.thecodeveal.app.repo.UserDetailsRepository;
-import com.thecodeveal.app.service.AuthorityService;
-import com.thecodeveal.app.service.CustomUserService;
+import com.example.repo.UserDetailsRepository;
+import com.example.app.service.AuthorityService;
+import com.example.app.service.CustomUserService;
 
 
 @RestController
@@ -37,10 +37,10 @@ public class AppController {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	UserDetailsRepository userDetailsRepository;
+	CustomerRepository customerRepository;
 	
 	@Autowired
-	CustomUserService customUserService;
+	CustomerService customerService;
 
 	@Autowired
 	AuthorityService authorityService;
@@ -90,11 +90,16 @@ public class AppController {
 	{
 		JSONObject jsonObject= new JSONObject(u);
 		
-			String email = (String) jsonObject.get("cemail");
-			String password = (String)  jsonObject.get("cpassword");
-			String name = (String) jsonObject.get("cname");
+			String firstname = (String) jsonObject.get("firstname");
+			String lastname = (String) jsonObject.get("lastname");
+			String street = (String) jsonObject.get("street");
+			String address = (String) jsonObject.get("address");
+			String city = (String) jsonObject.get("city");
+			String state = (String) jsonObject.get("state");
+			String email = (String)  jsonObject.get("email");
+			String phone = (String) jsonObject.get("phone");
 		
-			String role = (String) jsonObject.get("crole");
+			
 
 		
 		
@@ -105,22 +110,32 @@ public class AppController {
 				authorityList.addAll(authorityService.findAuthority((long)1));
 				
 				
-				if((userDetailsRepository.findByUsername(email))!=null)
+				if((CustomerRepository.findByUsername(email))!=null)
 				{
 					return false;
 				}
 				
-				User user =new User();
+				Customer customer =new Customer();
+				
+				
+
+				
+				customer.setFirstame(firstname);	
+				customer.setLastname(lastname);
+				customer.setStreet(street);
+				customer.setAddress(address);
+				customer.setCity(city);
+				customer.setState(state);
+				customer.setEmail(email);
+				customer.setPhone(phone);
 				
 				
 				
-				user.setRole(role);
 				
-				user.setUsername(email);			
-				user.setFirstname(name);
-				user.setPassword(passwordEncoder.encode(password));				
-				user.setAuthorites(authorityList);	
-				userDetailsRepository.save(user);
+				
+				
+				
+				CustomerRepository.save(customer);
 				return true;
 			  
 		
@@ -137,22 +152,24 @@ public class AppController {
 	}
 	
 	
-	@PostMapping("/details/{username}")
-	public boolean updateDetails(@RequestBody User user , @PathVariable("username") String email )
+	@PutMapping("/details/{username}")
+	public boolean updateDetails(@RequestBody Customer customer , @PathVariable("username") String email )
 	{
 		
 		
 		
 		
-		User u = userDetailsRepository.findByUsername(email);
+		Customer c = CustomerRepository.findByUsername(email);
 		
-		u.setFirstname(user.getFirstname());
-		u.setMiddlename(user.getMiddlename());
-		u.setLastname(user.getLastname());
-		u.setMobilenumber(user.getMobilenumber());
-		u.setDateofbirth(user.getDateofbirth());
-		u.setPersonalemail(user.getPersonalemail());
-		customUserService.updateDetails(u);
+		c.setFirstname(user.getFirstname());
+		c.setLastename(user.getLastname());
+		c.setStreet(customer.getStreet());
+		c.setAddress(user.getAddress());
+		c.setCity(user.getCity());
+		c.setState(user.getState());
+		c.setEmail(customer.getEmail());
+		c.setPhone(customer.getPhone());
+		customerService.updateDetails(c);
 		
 		
 		return true;
@@ -163,3 +180,17 @@ public class AppController {
 	}
 	
 
+@GetMapping("/customer")
+	List<User> getAllCustomer() {
+		return customerRepository.findAll();
+
+	}
+
+	@DeleteMapping("/customer/{id}")
+	String deleteTask(@PathVariable Long id) {
+		if (!customerRepository.existsById(id)) {
+			throw new UserNotFoundException(id);
+		}
+		customerRepository.deleteById(id);
+		return "Customer with id " + id + " has been deleted success";
+	}
